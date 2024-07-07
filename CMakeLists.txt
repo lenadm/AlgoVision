@@ -12,7 +12,6 @@ FetchContent_Declare(
 set(BUILD_EXAMPLES OFF CACHE INTERNAL "")
 FetchContent_MakeAvailable(raylib)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../src)
 set(SOURCE_FILES src/main.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
