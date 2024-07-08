@@ -1,7 +1,6 @@
 #include "raylib.h"
 
 void DrawNumberedRectangles(char *letter, Rectangle rectangle, int offset, int fontSize);
-void DrawInit(void);
 
 const Color background = {0x11, 0x15, 0x1c, 0xff};
 const Color foreground = {0x21, 0x2d, 0x40, 0xff};
@@ -16,20 +15,19 @@ int main(void) {
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();
-		DrawInit();
+
+		ClearBackground(background);
+		Rectangle gridSquare = {80, 80, 64, 64};
+		for (int i = 0; i < 10; i++) {
+			int offset = i * 64;
+			char letter = i + '0';
+			DrawNumberedRectangles(&letter, gridSquare, offset, 24);
+		}
+
 		EndDrawing();
 	}
 }
 
-void DrawInit(void) {
-	ClearBackground(background);
-	Rectangle gridSquare = {80, 80, 64, 64};
-	for (int i = 0; i < 10; i++) {
-		int offset = i * 64;
-		char letter = i + '0';
-		DrawNumberedRectangles(&letter, gridSquare, offset, 24);
-	}
-}
 
 void DrawNumberedRectangles(char *letter, Rectangle rectangle, int offset, int fontSize) {
 	int boxCenter = ((rectangle.width - fontSize) / 2);
