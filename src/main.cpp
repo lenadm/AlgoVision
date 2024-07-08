@@ -13,10 +13,11 @@ const Color selectedAccents = {0xba, 0x18, 0x18, 0xff};
 const int screenHeight = 800;
 const int screenWidth = 800;
 
+void DrawNumberedRectangles(Rectangle rectangle, char *numbers, Color foreground, Color accents);
+
 int main(void) {
 	Rectangle gridSquare = {80, 80, 64, 64};
 	InitWindow(800, 800, "raylib test");
-	RenderTexture2D base = LoadRenderTexture(640, 64);
 	SetTargetFPS(144);
 	srand((unsigned) time(NULL));
 
@@ -25,26 +26,36 @@ int main(void) {
 		numbers[i] = char('0' + rand() % 10);
 	}
 
-	BeginTextureMode(base);
-	ClearBackground(background);
+	while (!WindowShouldClose()) {
+		for (int first = 0; first < 9; first++) {
+			for (int second = 0; second < 9; second++) {
+				if (numbers[second] > numbers[second + 1]) {
+					char tmp = numbers[second];
+					numbers[second] = numbers[second + 1];
+					numbers[second + 1] = tmp;
+				}
+				BeginDrawing();
+				DrawNumberedRectangles(gridSquare, numbers, foreground, accents);
+				EndDrawing();
+				sleep(1);
+			}
+		}
+	}
+}
+
+void DrawNumberedRectangles(Rectangle gridSquare, char *numbers, Color foreground, Color accents) {
 	for (int i = 0; i < 10; i++) {
 		int offset = i * 64;
 		char letter[2] = {numbers[i], '\0'};
 		int boxCenter = ((gridSquare.width - 24) / 2);
-		int textCenter = (offset + boxCenter );
+		int textCenter = (gridSquare.x + offset + boxCenter);
 
-		DrawRectangle(0 + offset, 0, gridSquare.width, gridSquare.height, foreground);
+		ClearBackground(background);
 
-		DrawText(letter, textCenter, 20, 24, accents);
+		DrawRectangle(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, foreground);
 
-		DrawRectangleLines(0 + offset, 0, gridSquare.width, gridSquare.height, accents);
-	}
-	EndTextureMode();
+		DrawText(letter, textCenter, gridSquare.y + boxCenter, 24, accents);
 
-	while (!WindowShouldClose()) {
-		BeginDrawing();
-		DrawTextureRec(base.texture, (Rectangle) {0, 0, (float)base.texture.width, (float)-base.texture.height}, (Vector2) {80, 80}, WHITE);
-		EndDrawing();
+		DrawRectangleLines(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, accents);
 	}
 }
-
