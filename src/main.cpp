@@ -6,14 +6,13 @@
 
 const Color background = {0x11, 0x15, 0x1c, 0xff};
 const Color foreground = {0x21, 0x2d, 0x40, 0xff};
-const Color accents = {0x36, 0x41, 0x56, 0xff};
+const Color accents = {0xff, 0xff, 0xff, 0xff};
 const Color selectedForeground = {0x91, 0x20, 0x20, 0xff};
-const Color selectedAccents = {0xba, 0x18, 0x18, 0xff};
 
 const int screenHeight = 800;
 const int screenWidth = 800;
 
-void DrawNumberedRectangles(Rectangle rectangle, char *numbers, Color foreground, Color accents);
+void DrawNumberedRectangles(Rectangle gridSquare, char *letter, int offset, Color primary, Color secondary);
 
 int main(void) {
 	Rectangle gridSquare = {80, 80, 64, 64};
@@ -35,7 +34,15 @@ int main(void) {
 					numbers[second + 1] = tmp;
 				}
 				BeginDrawing();
-				DrawNumberedRectangles(gridSquare, numbers, foreground, accents);
+				for (int box = 0; box < 10; box++) {
+					int offset = box * 64;
+					char letter[2] = {numbers[box], '\0'};
+					if (box == second || box == second + 1) {
+						DrawNumberedRectangles(gridSquare, letter, offset, selectedForeground, accents);
+					} else {
+						DrawNumberedRectangles(gridSquare, letter, offset, foreground, accents);
+					}
+				}
 				EndDrawing();
 				sleep(1);
 			}
@@ -43,19 +50,15 @@ int main(void) {
 	}
 }
 
-void DrawNumberedRectangles(Rectangle gridSquare, char *numbers, Color foreground, Color accents) {
-	for (int i = 0; i < 10; i++) {
-		int offset = i * 64;
-		char letter[2] = {numbers[i], '\0'};
-		int boxCenter = ((gridSquare.width - 24) / 2);
-		int textCenter = (gridSquare.x + offset + boxCenter);
+void DrawNumberedRectangles(Rectangle gridSquare, char *letter, int offset, Color primary, Color secondary) {
+	int boxCenter = ((gridSquare.width - 24) / 2);
+	int textCenter = (gridSquare.x + offset + boxCenter);
 
-		ClearBackground(background);
+	ClearBackground(background);
 
-		DrawRectangle(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, foreground);
+	DrawRectangle(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, primary);
 
-		DrawText(letter, textCenter, gridSquare.y + boxCenter, 24, accents);
+	DrawText(letter, textCenter, gridSquare.y + boxCenter, 24, secondary);
 
-		DrawRectangleLines(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, accents);
-	}
+	DrawRectangleLines(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, secondary);
 }
