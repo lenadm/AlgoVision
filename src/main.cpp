@@ -37,7 +37,7 @@ int main(void) {
 void DrawThread(char *numbers, Rectangle gridSquare) {
 	for (int first = 0; first < 9; first++) {
 		bool isSorted = true;
-		for (int second = 0; second < 9; second++) {
+		for (int second = 0; second < 9 - first; second++) {
 			BeginDrawing();
 			for (int box = 0; box < 10; box++) {
 				int offset = box * 64;
