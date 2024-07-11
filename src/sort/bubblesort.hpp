@@ -3,18 +3,19 @@
 #include <ctime>
 #include <unistd.h>
 #include <thread>
+#include "../colors.hpp"
 
-Color background = {0x00, 0x00, 0x00, 0xff};
-Color foreground = {0x21, 0x2d, 0x40, 0xff};
-Color accents = {0xff, 0xff, 0xff, 0xff};
-Color selectedForeground = {0x91, 0x20, 0x20, 0xff};
+extern const Color colors::background;
+extern const Color colors::foreground;
+extern const Color colors::accents;
+extern const Color colors::selectedForeground;
 
 namespace {
 	static void DrawNumberedRectangles(Rectangle gridSquare, char *letter, int offset, Color primary, Color secondary) {
 		int boxCenter = ((gridSquare.width - 24) / 2);
 		int textCenter = (gridSquare.x + offset + boxCenter);
 
-		ClearBackground(background);
+		ClearBackground(colors::background);
 
 		DrawRectangle(gridSquare.x + offset, gridSquare.y, gridSquare.width, gridSquare.height, primary);
 
@@ -32,9 +33,9 @@ namespace {
 					int offset = box * 102;
 					char letter[2] = {numbers[box], '\0'};
 					if (box == second || box == second + 1) {
-						DrawNumberedRectangles(gridSquare, letter, offset, selectedForeground, accents);
+						DrawNumberedRectangles(gridSquare, letter, offset, colors::selectedForeground, colors::accents);
 					} else {
-						DrawNumberedRectangles(gridSquare, letter, offset, foreground, accents);
+						DrawNumberedRectangles(gridSquare, letter, offset, colors::foreground, colors::accents);
 					}
 				}
 				EndDrawing();

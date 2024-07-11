@@ -14,7 +14,7 @@ FetchContent_MakeAvailable(raylib)
 
 set(CMAKE_CXX_FLAGS "-g")
 
-set(SOURCE_FILES ./src/main.cpp ./src/mainMenu.hpp ./src/colors.hpp ./src/sort/bubblesort.hpp)
+set(SOURCE_FILES ./src/main.cpp ./src/mainMenu.hpp ./src/colors.cpp ./src/colors.hpp ./src/sort/bubblesort.hpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} raylib)
