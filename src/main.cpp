@@ -1,9 +1,10 @@
 #include "raylib.h"
-#include "./sort/bubblesort.hpp"
-#include "./mainMenu.hpp"
+#include "./scenes/bubblesort.hpp"
+#include "./scenes/mergeSort.hpp"
+#include "./scenes/mainMenu.hpp"
 
 enum Scenes {
-		 main_Menu, bubble_Sort
+		 main_Menu, bubble_Sort, merge_Sort
 };
 
 int main(void) {
@@ -11,6 +12,6 @@ int main(void) {
 	InitWindow(1280, 720, "AlgoVision");
 	SetTargetFPS(60);
 	
-	Scene::mainMenu();
+	Scene::mergeSort();
 	return 0;
 }

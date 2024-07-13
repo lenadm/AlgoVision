@@ -1,9 +1,9 @@
-#include "raylib.h"
+#include <raylib.h>
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
 #include <thread>
-#include "../colors.hpp"
+#include "../colors/colors.hpp"
 
 extern const Color colors::background;
 extern const Color colors::foreground;
